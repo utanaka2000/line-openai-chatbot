@@ -22,6 +22,16 @@ jobs:
     - name: Set up Google Cloud SDK
       uses: google-github-actions/setup-gcloud@v2
 
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+          python-version: "3.12"
+
+    - name: Generate requirements.txt
+      run: |
+        pipx install poetry
+        poetry export -f requirements.txt --output requirements.txt --without-hashes
+
     - name: Deploy to Cloud Functions
       run: |
         gcloud functions deploy hello-cd \
