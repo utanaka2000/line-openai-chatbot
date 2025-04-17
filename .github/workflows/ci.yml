@@ -1,0 +1,44 @@
+name: "CI: Ruff, mypy, and Pytest"
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Ruff
+        run: pipx install ruff
+
+      - name: Lint code with Ruff
+        run: ruff check . --output-format=github
+
+      - name: Check code formatting with Ruff
+        run: ruff format . --diff
+      
+      - name: Install mypy
+        run: pipx install mypy
+      
+      - name: Run mypy
+        run: mypy src tests ./main.py
+
+      - name: Install Poetry
+        run: pipx install poetry
+      
+      - name: Install dependencies
+        run: |
+          poetry config virtualenvs.create false
+          poetry install --no-root
+
+      - name: Run Pytest
+        run: |
+          poetry run pytest
