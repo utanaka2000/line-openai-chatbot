@@ -39,7 +39,7 @@ jobs:
           --runtime python312 \
           --trigger-http \
           --allow-unauthenticated \
-          --region ${{ GCP_FUNCTION_REGION }} \
+          --region ${{ secrets.GCP_FUNCTION_REGION }} \
           --entry-point main \
           --service-account ${{ secrets.GCP_FUNCTION_SA }} \
           --quiet
