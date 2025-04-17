@@ -35,10 +35,11 @@ jobs:
 
     - name: Deploy to Cloud Functions
       run: |
-        gcloud functions deploy hello-cd \
+        gcloud functions deploy ${{ secrets.GCP_FUNCTION_NAME }} \
           --runtime python312 \
           --trigger-http \
           --allow-unauthenticated \
-          --region asia-northeast1 \
+          --region ${{ GCP_FUNCTION_REGION }} \
           --entry-point main \
-          --service-account ${{ secrets.GCP_FUNCTION_SA }} 
+          --service-account ${{ secrets.GCP_FUNCTION_SA }} \
+          --quiet
