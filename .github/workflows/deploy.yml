@@ -40,5 +40,5 @@ jobs:
           --trigger-http \
           --allow-unauthenticated \
           --region asia-northeast1 \
-          --entry-point main
+          --entry-point main \
           --service-account ${{ secrets.GCP_FUNCTION_SA }} 
