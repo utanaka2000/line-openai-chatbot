@@ -36,6 +36,8 @@ def handle_message(event):
 
     with ApiClient(configuration) as api_client:
         line_bot_api = MessagingApi(api_client)
+        profile = line_bot_api.get_profile(event.source.user_id)
+        print(profile.display_name)
         line_bot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=event.reply_token, messages=[TextMessage(text=reply_text)]
