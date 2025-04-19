@@ -1,6 +1,6 @@
 from linebot.v3.exceptions import InvalidSignatureError
 
-from src.line.webhook import handle_line_event
+from src.line_webhook import handle_line_event
 
 
 def main(request):
