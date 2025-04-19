@@ -44,4 +44,5 @@ jobs:
           --region ${{ secrets.GCP_FUNCTION_REGION }} \
           --entry-point main \
           --service-account ${{ secrets.GCP_FUNCTION_SA }} \
-          --quiet
+          --quiet \
+          --set-secrets OPENAI_API_KEY=openai-api-key:latest,LINE_CHANNEL_ACCESS_TOKEN=line-channel-access-token:latest,LINE_CHANNEL_SECRET=line-channel-secret:latest
