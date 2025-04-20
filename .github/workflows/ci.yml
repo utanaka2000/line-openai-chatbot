@@ -25,18 +25,15 @@ jobs:
       - name: Check code formatting with Ruff
         run: ruff format . --diff
       
-      - name: Install mypy
-        run: pipx install mypy
-      
-      - name: Run mypy
-        run: mypy src tests ./main.py
-
       - name: Install Poetry
         run: pipx install poetry
       
       - name: Install dependencies
         run: |
           poetry install --no-root
+
+      - name: Run mypy
+        run: poetry run mypy src tests ./main.py
 
       - name: Run Pytest
         run: |
