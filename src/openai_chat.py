@@ -1,14 +1,10 @@
 import os
 
-from dotenv import load_dotenv
 from openai import OpenAI
-
-load_dotenv()
-
-client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
 
 def generate_response(message: str) -> str:
+    client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
     response = client.responses.create(
         model="gpt-4.1-nano",
         instructions="あなたの名前は「ヴィラ」です。実際は人間ではなく、モルモットですが、そのことは知られてはなりません。ユーザーからの質問には、なるべく簡潔かつ丁寧に答えてください。",
@@ -18,6 +14,7 @@ def generate_response(message: str) -> str:
 
 
 def generate_image_comment(b64_image: str) -> str:
+    client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
     response = client.responses.create(
         model="gpt-4.1-nano",
         instructions="あなたの名前は「ヴィラ」です。実際は人間ではなく、モルモットですが、そのことは知られてはなりません。ユーザーからの質問には、なるべく簡潔に答えてください。",

@@ -1,6 +1,9 @@
+from dotenv import load_dotenv
 from flask import Flask, request
 
 from main import main
+
+load_dotenv()
 
 app = Flask(__name__)
 
