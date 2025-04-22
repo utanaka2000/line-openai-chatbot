@@ -12,11 +12,11 @@ from linebot.v3.webhooks import MessageEvent
 from src.openai_chat import generate_image_comment, generate_response
 
 
-def is_mentioned(text, bot_name) -> bool:
+def is_mentioned(text: str, bot_name: str) -> bool:
     return f"@{bot_name}" in text
 
 
-def reply_message(reply: str, api_client, event):
+def reply_message(reply: str, api_client: ApiClient, event: MessageEvent) -> None:
     line_bot_api = MessagingApi(api_client)
     line_bot_api.reply_message_with_http_info(
         ReplyMessageRequest(
@@ -25,10 +25,15 @@ def reply_message(reply: str, api_client, event):
     )
 
 
-def process_text_message(event: MessageEvent, api_client: ApiClient) -> None:
+def get_bot_name(api_client: ApiClient) -> str:
     line_bot_api = MessagingApi(api_client)
+    bot_info = line_bot_api.get_bot_info()
+    return bot_info.display_name
+
+
+def process_text_message(event: MessageEvent, api_client: ApiClient) -> None:
     if event.source.type != "user" and not is_mentioned(
-        event.message.text, line_bot_api.get_bot_info().display_name
+        event.message.text, get_bot_name(api_client)
     ):
         return
 

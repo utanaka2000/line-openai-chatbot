@@ -6,9 +6,10 @@ from src.usecase import process_text_message
 
 
 class TestProcessTextMessage:
+    @patch("src.usecase.get_bot_name", return_value="bot_name")
     @patch("src.usecase.reply_message")
     @patch("src.usecase.generate_response", return_value="Hello!")
-    def test_source_type_is_user(self, mock_generate_response, mock_reply_message):
+    def test_source_type_is_user(self, mock_generate_response, mock_reply_message, _):
         # borrow from https://developers.line.biz/ja/reference/messaging-api/#message-event
         test_event = MessageEvent.from_json(
             """
@@ -44,10 +45,11 @@ class TestProcessTextMessage:
             "Hello!", mock_api_client, test_event
         )
 
+    @patch("src.usecase.get_bot_name", return_value="bot_name")
     @patch("src.usecase.reply_message")
     @patch("src.usecase.generate_response", return_value="Hello!")
     def test_source_type_is_group_without_bot_name(
-        self, mock_generate_response, mock_reply_message
+        self, mock_generate_response, mock_reply_message, _
     ):
         test_event = MessageEvent.from_json(
             """
@@ -106,10 +108,11 @@ class TestProcessTextMessage:
         mock_generate_response.assert_not_called()
         mock_reply_message.assert_not_called()
 
+    @patch("src.usecase.get_bot_name", return_value="bot_name")
     @patch("src.usecase.reply_message")
     @patch("src.usecase.generate_response", return_value="Hello!")
     def test_source_type_is_group_with_bot_name(
-        self, mock_generate_response, mock_reply_message
+        self, mock_generate_response, mock_reply_message, _
     ):
         test_event = MessageEvent.from_json(
             """
@@ -161,17 +164,13 @@ class TestProcessTextMessage:
             """
         )
 
-        with patch(
-            "src.usecase.MessagingApi.get_bot_info",
-            return_value=MagicMock(display_name="bot_name"),
-        ):
-            mock_api_client = MagicMock()
+        mock_api_client = MagicMock()
 
-            process_text_message(test_event, mock_api_client)
+        process_text_message(test_event, mock_api_client)
 
-            mock_generate_response.assert_called_once_with(
-                "@All @example @bot_name Good Morning!! (love)"
-            )
-            mock_reply_message.assert_called_once_with(
-                "Hello!", mock_api_client, test_event
-            )
+        mock_generate_response.assert_called_once_with(
+            "@All @example @bot_name Good Morning!! (love)"
+        )
+        mock_reply_message.assert_called_once_with(
+            "Hello!", mock_api_client, test_event
+        )
