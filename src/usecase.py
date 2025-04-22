@@ -32,7 +32,7 @@ def process_text_message(event: MessageEvent, api_client: ApiClient) -> None:
     ):
         return
 
-    reply_text = generate_response(event.source.text)
+    reply_text = generate_response(event.message.text)
     print(reply_text)
     reply_message(reply_text, api_client, event)
 
