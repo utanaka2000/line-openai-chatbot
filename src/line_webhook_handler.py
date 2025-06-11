@@ -15,7 +15,7 @@ from linebot.v3.webhooks import (
 from src.usecase import (
     process_image_message,
     process_sticker_message,
-    process_text_message,
+    transfer_text_message,
 )
 
 configuration = Configuration(access_token=os.environ["LINE_CHANNEL_ACCESS_TOKEN"])
@@ -30,7 +30,7 @@ def handle_line_event(body, signature):
 def handle_text_message(event):
     print(event)
     with ApiClient(configuration) as api_client:
-        process_text_message(event, api_client)
+        transfer_text_message(event, api_client)
 
 
 @handler.add(MessageEvent, message=ImageMessageContent)
